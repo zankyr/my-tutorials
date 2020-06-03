@@ -10,6 +10,6 @@ public class HelloWorldController {
     @RequestMapping("/")
     @ResponseBody
     String index(){
-        return "Hello, World!";
+        return "Hello, Spring Boot World!";
     }
 }
