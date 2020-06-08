@@ -1,4 +1,4 @@
-package com.rz.one_to_one.foreign_key.unidirectional;
+package com.rz.one_to_one.join_table;
 
 import javax.persistence.*;
 

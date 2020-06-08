@@ -1,4 +1,4 @@
-package com.rz.model.one_to_one.foreign_key.bidirectional;
+package com.rz.one_to_one.foreign_key.bidirectional;
 
 import javax.persistence.*;
 import java.time.LocalDate;

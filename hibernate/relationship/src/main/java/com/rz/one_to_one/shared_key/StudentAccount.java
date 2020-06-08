@@ -1,24 +1,28 @@
-package com.rz.one_to_one.join_table;
+package com.rz.one_to_one.shared_key;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "T_ACCOUNT")
-public class Account {
+@Table(name = "T_STUDENT_ACCOUNT")
+public class StudentAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", unique = true, nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "ACC_NUMBER", unique = true, nullable = false)
     private String accountNumber;
 
-    public Integer getId() {
+    @OneToOne
+    @JoinColumn
+    @MapsId
+    private Student student;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,5 +32,13 @@ public class Account {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }
