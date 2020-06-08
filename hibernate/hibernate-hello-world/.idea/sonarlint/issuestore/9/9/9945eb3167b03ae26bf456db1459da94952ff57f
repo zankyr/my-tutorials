@@ -1,0 +1,12 @@
+
+X	java:S125"<This block of commented-out lines of code should be removed.(…ÑŠ›8­© ö¨.
+Z	java:S106."9Replace this use of System.out or System.err by a logger.(ÎáğÖúÿÿÿÿ8êŞßğ¨.
+@
+java:S1148&"#Use a logger to log this exception.(Ç’Çê8¤ËÙğ¨.
+@
+java:S11481"#Use a logger to log this exception.(Ç’Çê8ÛĞáğ¨.
+J
+java:S1481"-Remove this unused "student4" local variable.(Ò—‡8²«ªö¨.
+]	java:S125 "<This block of commented-out lines of code should be removed.(Öşåøÿÿÿÿ8²«ªö¨.
+J
+java:S1481"-Remove this unused "student3" local variable.(¬±Ö¨8­© ö¨.
