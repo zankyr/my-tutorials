@@ -1,7 +1,7 @@
-package com.rz.datajpa.example;
+package com.rz.datajpa;
 
-import com.rz.Employee;
-import com.rz.EmployeeRepository;
+import com.rz.model.Employee;
+import com.rz.repository.EmployeeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class EmployeeRepositoryTest {
     private EmployeeRepository employeeRepository;
 
     @Test
-    public void whenFindByName_therReturnEmployee(){
+    public void whenFindByCatena_therReturnEmployee(){
         // given
         Employee given = new Employee("Rik");
         testEntityManager.persist(given);

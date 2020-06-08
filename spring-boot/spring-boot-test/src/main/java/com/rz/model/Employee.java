@@ -1,4 +1,4 @@
-package com.rz;
+package com.rz.model;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.rz.controller;
+package com.rz.webmvc;
 
 import com.rz.model.Employee;
 import com.rz.service.EmployeeService;
