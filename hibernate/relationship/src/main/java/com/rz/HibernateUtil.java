@@ -18,6 +18,9 @@ public class HibernateUtil {
     private static StandardServiceRegistry standardServiceRegistry;
     private static SessionFactory sessionFactory;
 
+    private HibernateUtil() {
+    }
+
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {

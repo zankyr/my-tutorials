@@ -23,9 +23,6 @@ public class UserDetail {
     @Column(name = "DBO")
     private LocalDate dob;
 
-    public UserDetail() {
-    }
-
     public long getId() {
         return id;
     }

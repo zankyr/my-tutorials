@@ -27,9 +27,6 @@ public class UserDetail2 {
     // @JoinColumn(name = "USR_ID")
     private User2 user2;
 
-    public UserDetail2() {
-    }
-
     public long getId() {
         return id;
     }

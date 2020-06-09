@@ -11,23 +11,22 @@ import com.rz.one_to_one.shared_key.StudentAccount;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
 public class Application {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             showDatabase(session);
-            //unidirectionalExample(session);
-            //bidirectionalExample(session);
-            //joinTableExample(session);
+            unidirectionalExample(session);
+            bidirectionalExample(session);
+            joinTableExample(session);
             sharedKeyExample(session);
 
 
@@ -48,21 +47,21 @@ public class Application {
         nativeQuery(session, "SHOW TABLES");
 
         // Unidirectional example
-        //   nativeQuery(session, "SHOW COLUMNS FROM USER");
-        // nativeQuery(session, "SHOW COLUMNS FROM USER_DETAIL");
+        nativeQuery(session, "SHOW COLUMNS FROM USER");
+        nativeQuery(session, "SHOW COLUMNS FROM USER_DETAIL");
 
         // Join table example
-        // nativeQuery(session, "SHOW COLUMNS FROM T_EMPLOYEE");
-        // nativeQuery(session, "SHOW COLUMNS FROM T_ACCOUNT");
-        // nativeQuery(session, "SHOW COLUMNS FROM EMPLOYEE_ACCOUNT");
+        nativeQuery(session, "SHOW COLUMNS FROM T_EMPLOYEE");
+        nativeQuery(session, "SHOW COLUMNS FROM T_ACCOUNT");
+        nativeQuery(session, "SHOW COLUMNS FROM EMPLOYEE_ACCOUNT");
 
         // Shared key example
         nativeQuery(session, "SHOW COLUMNS FROM T_STUDENT");
         nativeQuery(session, "SHOW COLUMNS FROM T_STUDENT_ACCOUNT");
 
         // Bidirectional example
-        // nativeQuery(session, "SHOW COLUMNS FROM USER_2");
-        // nativeQuery(session, "SHOW COLUMNS FROM USER_DETAIL_2");
+        nativeQuery(session, "SHOW COLUMNS FROM USER_2");
+        nativeQuery(session, "SHOW COLUMNS FROM USER_DETAIL_2");
 
 
     }
@@ -83,7 +82,7 @@ public class Application {
         session.saveOrUpdate(user);
 
         nativeQuery(session, "SELECT * FROM USER");
-        query(session, "SELECT * FROM USER_DETAIL");
+        nativeQuery(session, "SELECT * FROM USER_DETAIL");
     }
 
     private static void bidirectionalExample(Session session) {
@@ -155,18 +154,11 @@ public class Application {
         nativeQuery(session, "SELECT * FROM T_STUDENT_ACCOUNT");
     }
 
+
     public static void nativeQuery(Session session, String query) {
         List<Object> list = session.createNativeQuery(query).list();
         for (Object o : list) {
             System.out.println(Arrays.toString((Object[]) o));
         }
     }
-
-    public static void query(Session session, String query) {
-        session.createQuery(query)
-                .list()
-                .forEach(System.out::println);
-    }
-
-
 }
