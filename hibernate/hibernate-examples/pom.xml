@@ -81,7 +81,7 @@
         <commons-lang.version>3.3.2</commons-lang.version>
         <hibernate.version>5.4.17.Final</hibernate.version>
         <hibernate.validator.version>5.2.3.Final</hibernate.validator.version>
-        <guava.version>19.0</guava.version>
+        <guava.version>[24.1.1,)</guava.version>
 
         <junit.version>4.12</junit.version>
 
