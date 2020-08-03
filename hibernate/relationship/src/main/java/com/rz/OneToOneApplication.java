@@ -16,7 +16,7 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
-public class Application {
+public class OneToOneApplication {
     public static void main(String[] args) {
 
         Transaction transaction = null;
