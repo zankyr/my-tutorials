@@ -83,7 +83,7 @@
         <hibernate.validator.version>5.2.3.Final</hibernate.validator.version>
         <guava.version>[24.1.1,)</guava.version>
 
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
 
         <h2.version>1.4.200</h2.version>
     </properties>
