@@ -11,3 +11,7 @@ Osrc/test/java/com/rz/springboot/rest/testing/controller/HomeControllerTest.java
 Ssrc/test/java/com/rz/springboot/rest/testing/controller/HomeControllerMockTest.java,9\1\91a2347ed0ea80f31bc9e5defb9dc1ce7b982203
 p
 @src/main/java/com/rz/springboot/rest/testing/controller/ASD.java,3\3\339d54a4143304ad028083f5e00c3629d94fb79c
+}
+Msrc/main/java/com/rz/springboot/rest/testing/controller/HomeControllerV2.java,6\f\6fa8389754a2c86119dcbb28eaaae85cbd04c03b
+Å
+Qsrc/test/java/com/rz/springboot/rest/testing/controller/HomeControllerV2Test.java,4\2\4233c4672e62a3d2f54a9bda657adbe04ade5f8c

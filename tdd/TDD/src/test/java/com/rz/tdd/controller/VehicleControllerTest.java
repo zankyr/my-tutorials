@@ -38,7 +38,6 @@ class VehicleControllerTest {
     @MockBean
     private VehicleService vehicleService;
 
-
     @Test
     void getDetail_shouldReturnVehicleIfFound() throws Exception {
         var vehicleId = 1L;

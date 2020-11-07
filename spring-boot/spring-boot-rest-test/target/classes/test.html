@@ -1,0 +1,436 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8" %>
+<%@ include file="/common/common.jsp" %>
+<pnx:layout-render name="/common/template.jsp"
+                   pageTitle="Importazione" pagePanelWidth="430px"
+                   organizationSelector="true">
+    <pnx:layout-component name="scripts">
+        <%@ include file="/secure/e-invoicing/common/common-angular.jsp" %>
+        <pnx:js var="appContext" value="${appContext}"/>
+        <style>
+            #dettagliTable {
+                margin-top: 0;
+                max-width: 868px;
+            }
+
+        </style>
+    </pnx:layout-component>
+
+    <pnx:layout-component name="filters">
+        <pnx:filterTableTab filterFunction="refreshImportTable()"
+                            resetFunction="vmApp.filter_reset();resetImportFilter()" filterModel="vmApp.filter">
+            <pnx:filterInput model="vmApp.filter.id" label="Id" operators="eq"/>
+            <pnx:filterInput model="vmApp.filter.fileName" label="Nome" operators="contains,eq,startsWith,endsWith"/>
+            <pnx:filterInput model="vmApp.filter.creator" label="Creatore" operators="contains,eq,startsWith,endsWith"/>
+            <pnx:filterDateRange model="vmApp.filter.created" label="Data acquisizione"/>
+            <pnx:filterDateRange model="vmApp.filter.modified" label="Data elaborazione"/>
+            <pnx:multiSelect model="vmApp.filter.fileType" label="Tipo" ngOptions="item in fatturaTipoEmesse"
+                             ng-show="vmApp.filter.filtroEmesseRicevute === 'E'"/>
+            <pnx:multiSelect model="vmApp.filter.fileType" label="Tipo" ngOptions="item in fatturaTipoRicevute"
+                             ng-show="vmApp.filter.filtroEmesseRicevute === 'R'"/>
+            <pnx:checkboxList model="vmApp.filter.status" label="Stato"
+                              collection="${pnx:enumer('it.phoenix.web.data.enumerations.ImportStatus')}"/>
+        </pnx:filterTableTab>
+    </pnx:layout-component>
+
+    <pnx:layout-component name="contents">
+        <pnx:popup id="dettaglio" title="Dettaglio importazione" negativeButtonTitle="Chiudi">
+            <%--
+            <pnx:dataTable id="dettaglioImportatiTable" pagination="true"
+                           title="Record nel file {{vmPnxModal.model.filename}}" --%>
+                <%--
+                tableModel="it.csttech.fel.controllers.secure.fel.pages.gestione.tables.FelDettaglioImportatiTableModel"--%>
+                <%-- filterBy="{superImportId: '{{vmPnxModal.model.importId}}'}"--%>
+                <%-- filterModel="" ng-hide="vmPnxModal.model.show_table!=='FILES'">--%>
+                <%--
+                <thead>--%>
+                <%--
+                <tr>--%>
+                    <%--
+                    <th/>
+                    --%>
+                    <%--
+                    <th st-sort="id">Id</th>
+                    --%>
+                    <%--
+                    <th st-sort="status">Stato</th>
+                    --%>
+                    <%--
+                    <th st-sort="fileType">Tipo</th>
+                    --%>
+                    <%--
+                    <th st-sort="organizationId">Azienda</th>
+                    --%>
+                    <%--
+                    <th st-sort="fileName">Nome</th>
+                    --%>
+                    <%--
+                </tr>
+                --%>
+                <%--
+                </thead>
+                --%>
+                <%-- --%>
+                <%--
+                <tbody>--%>
+                <%--
+                <pnx:row>--%>
+                    <%--
+                    <td>--%>
+                        <%--
+                        <button uib-tooltip="Dettaglio fattura" class="btn-info btn-xs"
+                                ng-hide="(row.status!=='PROCESSED' && row.status!=='PROCESSED_KO') || vmApp.filter.filtroEmesseRicevute === 'R'"
+                                --%>
+                            <%--
+                            ng-click="showListaImportsEmesse(row.id,row.fileName,row.status,vmApp.emesseImportateTable,vmApp.scartateImportateTable)">--%>
+                            <%-- <i class="far fa-fw fa-search"/>--%>
+                            <%--
+                        </button>
+                        --%>
+                        <%-- --%>
+                        <%--
+                        <button uib-tooltip="Dettaglio fattura" class="btn-info btn-xs"
+                                ng-hide="(row.status!=='PROCESSED' && row.status!=='PROCESSED_KO') || vmApp.filter.filtroEmesseRicevute === 'E'"
+                                --%>
+                            <%--
+                            ng-click="showListaImportsRicevute(row.id,row.fileName,row.status,vmApp.ricevuteImportateTable)">--%>
+                            <%-- <i class="far fa-fw fa-search"/>--%>
+                            <%--
+                        </button>
+                        --%>
+                        <%--
+                    </td>
+                    --%>
+                    <%--
+                    <td>{{row.id}}</td>
+                    --%>
+                    <%--
+                    <td>--%>
+                        <%-- <label class="label label-info" ng-if="row.status == 'ACQUIRED'">{{row.status}}</label>--%>
+                        <%-- <label class="label label-danger" ng-if="row.status == 'REJECTED'">{{row.status}}</label>--%>
+                        <%-- <label class="label label-default"
+                                    ng-if="row.status == 'PROCESSING'">{{row.status}}</label>--%>
+                        <%-- <label class="label label-success" ng-if="row.status == 'PROCESSED'">{{row.status}}</label>--%>
+                        <%-- <label class="label label-warning"
+                                    ng-if="row.status == 'PROCESSED_KO'">{{row.status}}</label>--%>
+                        <%-- <label class="label label-danger" ng-if="row.status == 'DELETED'">{{row.status}}</label>--%>
+                        <%--
+                    </td>
+                    --%>
+                    <%--
+                    <td>{{row.fileType}}</td>
+                    --%>
+                    <%--
+                    <td>{{row.organizationId}}</td>
+                    --%>
+                    <%--
+                    <td style="white-space: normal">{{row.fileName}}</td>
+                    --%>
+                    <%--
+                </pnx:row>
+                --%>
+                <%--
+                </tbody>
+                --%>
+                <%--
+            </pnx:dataTable>
+            --%>
+
+            <pnx:dataTable id="emesseImportateTable" pagination="true"
+                           title="Record nel file {{vmPnxModal.model.filename}}"
+                           tableModel="it.csttech.fel.controllers.secure.fel.pages.gestione.tables.FelFattureEmesseImportateTableModel"
+                           filterBy="{importId: '{{vmPnxModal.model.importId}}'}" filterModel=""
+                           ng-hide="vmPnxModal.model.show_table!=='LISTA' || vmPnxModal.model.importStatus!=='PROCESSED' || vmPnxModal.model.type!=='E'">
+
+                <thead>
+                <tr>
+                    <th/>
+                    <th>Tipo</th>
+                    <th>Data</th>
+                    <th>Numero doc.</th>
+                    <th>Mittente</th>
+                    <th>Destinatario</th>
+                    <th>Imponibile</th>
+                    <th>Imposte</th>
+                    <th>Totale</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <pnx:row>
+                    <td class="text-center">
+                        <ng-include src="'template/label/icon/OK.html'"/>
+                    </td>
+                    <td class="text-center">
+                        <ng-include src="'template/label/'+row.tipoDocumento+'.html'"/>
+                    </td>
+                    <td> {{row.data | date: 'shortDate'}}</td>
+                    <td style="white-space: pre-line;"> {{row.numeroFattura }}</td>
+                    <td style="white-space: pre-line;"> {{row.cedenteNome}}</td>
+                    <td style="white-space: pre-line;"> {{row.cessionarioNome}}</td>
+                    <td class="text-right"> {{row.totaleImponibile | currency}}</td>
+                    <td class="text-right"> {{row.totaleImposte | currency}}</td>
+                    <td class="text-right"> {{(row.totaleImponibile + row.totaleImposte) | currency}}</td>
+                </pnx:row>
+                </tbody>
+            </pnx:dataTable>
+
+            <pnx:dataTable id="scartateImportateTable" pagination="true"
+                           title="Record nel file {{vmPnxModal.model.filename}}"
+                           tableModel="it.csttech.fel.controllers.secure.fel.pages.gestione.tables.FelFattureScartateImportateTableModel"
+                           filterBy="{importId: '{{vmPnxModal.model.importId}}'}" filterModel=""
+                           ng-hide="vmPnxModal.model.show_table!=='LISTA' || vmPnxModal.model.importStatus!=='PROCESSED_KO' || vmPnxModal.model.type!=='E'">
+
+                <thead>
+                <tr>
+                    <th/>
+                    <th/>
+                    <th>Tipo</th>
+                    <th>Data</th>
+                    <th>Numero doc.</th>
+                    <th>Mittente</th>
+                    <th>Destinatario</th>
+                    <th>Imponibile</th>
+                    <th>Imposte</th>
+                    <th>Totale</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <pnx:row>
+                    <td>
+                        <button uib-tooltip="Dettaglio scarto" class="btn-danger btn-xs"
+                                ng-click="showDettaglioScarto(row.idFattura,vmPnxModal.model.importId,vmPnxModal.model.filename,vmPnxModal.model.importStatus, vmPnxModal.model.type)">
+                            <i class="far fa-fw fa-list"/>
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <ng-include src="'template/label/icon/'+ ((row.stato=='SCARTO')?'KO':'DUP')+'.html'"/>
+                    </td>
+                    <td class="text-center">
+                        <ng-include src="'template/label/'+row.tipoDocumento+'.html'"/>
+                    </td>
+                    <td> {{row.data | date: 'shortDate'}}</td>
+                    <td style="white-space: pre-line;"> {{row.numeroFattura }}</td>
+                    <td style="white-space: pre-line;"> {{row.cedenteNome}}</td>
+                    <td style="white-space: pre-line;"> {{row.cessionarioNome}}</td>
+                    <td class="text-right"> {{row.totaleImponibile | currency}}</td>
+                    <td class="text-right"> {{row.totaleImposte | currency}}</td>
+                    <td class="text-right"> {{(row.totaleImponibile + row.totaleImposte) | currency}}</td>
+                </pnx:row>
+                </tbody>
+            </pnx:dataTable>
+
+            <pnx:dataTable id="ricevuteImportateTable" pagination="true"
+                           title="Record nel file {{vmPnxModal.model.filename}}"
+                           tableModel="it.csttech.fel.controllers.secure.fel.pages.gestione.tables.FelFattureRicevuteImportateTableModel"
+                           filterBy="{importId: '{{vmPnxModal.model.importId}}'}" filterModel=""
+                           ng-hide="vmPnxModal.model.show_table!=='LISTA' || vmPnxModal.model.importStatus!=='PROCESSED' || vmPnxModal.model.type!=='R'">
+                <thead>
+                <tr>
+                    <th/>
+                    <th>Tipo</th>
+                    <th>Data</th>
+                    <th>Numero doc.</th>
+                    <th>Mittente</th>
+                    <th>Destinatario</th>
+                    <th>Imponibile</th>
+                    <th>Imposte</th>
+                    <th>Totale</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <pnx:row>
+                    <td class="text-center">
+                        <ng-include src="'template/label/icon/OK.html'"/>
+                    </td>
+                    <td class="text-center">
+                        <ng-include src="'template/label/'+row.tipoDocumento+'.html'"/>
+                    </td>
+                    <td> {{row.data | date: 'shortDate'}}</td>
+                    <td style="white-space: pre-line;"> {{row.numeroFattura }}</td>
+                    <td style="white-space: pre-line;"> {{row.cedenteNome}}</td>
+                    <td style="white-space: pre-line;"> {{row.cessionarioNome}}</td>
+                    <td class="text-right"> {{row.totaleImponibile | currency}}</td>
+                    <td class="text-right"> {{row.totaleImposte | currency}}</td>
+                    <td class="text-right"> {{(row.totaleImponibile + row.totaleImposte) | currency}}</td>
+                </pnx:row>
+                </tbody>
+            </pnx:dataTable>
+
+            <pnx:dataTable id="dettagliTable" pagination="true" title="Dettaglio scarto {{vmPnxModal.model.idFattura}}"
+                           tableModel="it.csttech.fel.controllers.secure.fel.pages.gestione.tables.FelDettagliScartoTableModel"
+                           filterBy="{idFattura: '{{vmPnxModal.model.idFattura}}'}" filterModel=""
+                           ng-hide="vmPnxModal.model.show_table!=='DETTAGLIO'">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Regola</th>
+                    <th style="width: 600px">Causale</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <pnx:row>
+                    <td> {{row.idCausaleScarto}}</td>
+                    <td> {{row.codiceRegola}}</td>
+                    <td>
+                        <span style="white-space: pre-line;"> {{row.causale}}</span>
+                    </td>
+                </pnx:row>
+                </tbody>
+            </pnx:dataTable>
+        </pnx:popup>
+
+        <div id="contents-wrapper">
+            <pnx:toolbar id="uploadInvoce"
+                         flow-init=""
+                         flow-name="vmApp.pnxUploadSettings"
+                         pnx-upload="upload"
+                         pnx-upload-target="upload"
+                         flow-files-submitted="$flow.upload()"
+                         ng-hide="(vmApp.filter.filtroEmesseRicevute) === 'R' || ${!pnx:hasFunction('UPLOAD_FILE_ISSUED_INVOICES')}">
+                <div class="pnx-multi-upload">
+	                <span class="btn btn-info" flow-btn>
+						<i class="far fa-fw fa-file"></i>
+						${messages.UPLOAD_FILE}
+					</span>
+                </div>
+            </pnx:toolbar>
+
+
+            <pnx:toolbar id="sendReceiveFilter">
+                <table style="width: 100%;padding-left: 100px;">
+                    <tr>
+                        <td style="width: 20%;">
+                            <div>
+                                <pnx-radio-group class="inline blue-text m-l-sm"
+                                                 ng-model="vmApp.filter.filtroEmesseRicevute"
+                                                 pnx-radio-group-name="filtro_emesse_ricevute"
+                                                 ng-change="refreshImportTable()"
+                                                 pnx-radio-group-options="${appContext}/secure/e-invoicing/services/enum/filtro/emesseRicevute"/>
+                            </div>
+                        </td>
+                        <td style="width: 5px;"/>
+                        <td>
+                            <div>
+                                <pnx:ajaxButton icon="fa-trash"
+                                                className="btn-danger btn"
+                                                action="multidelete"
+                                                param="{multiIds: vmApp.selectedImports}"
+                                                label="Cancella selezionati"
+                                                ng-disabled="(vmApp.selectedImports.length==0) || (vmApp.filter.filtroEmesseRicevute) === 'R' || ${!pnx:hasFunction('DELETE_ISSUED_INVOICES')}"
+                                                tooltipText="Elimina"
+                                                confirmMessage="Eliminare le fatture selezionate?"
+                                                confirmTitle="Attenzione"
+                                />
+                            </div>
+                        </td>
+                    </tr>
+
+
+                </table>
+            </pnx:toolbar>
+
+            <pnx:dataTable id="importFelTable" pagination="true" recordsPerPage="25" title="Importazione"
+                           filterModel="vmApp.filter"
+                           onLoad="angular.noop();"
+                           tableModel="it.csttech.fel.controllers.secure.fel.pages.gestione.tables.FelImportatiTableModel">
+                <thead>
+                <tr>
+                    <th class="text-center" style="min-width: 49px" pnx-toggle-check="vmApp.selectedImports"
+                        ng-if="(vmApp.filter.filtroEmesseRicevute) === 'E'"></th>
+                    <th>Azioni</th>
+                    <th st-sort="id">Id</th>
+                    <th st-sort="status">Stato</th>
+                    <th st-sort="fileType">Tipo</th>
+                    <th st-sort="organizationId">Azienda</th>
+                    <th st-sort="fileName">Nome</th>
+                    <th st-sort="created" st-sort-default="reverse">Data<br/>acquisizione</th>
+                    <th st-sort="modified">Data<br/>elaborazione</th>
+                    <th st-sort="creator">Creatore</th>
+                    <th st-sort="recordCount">Totale<br/>record</th>
+                    <th st-sort="recordOk">Record<br/>OK</th>
+                    <th st-sort="recordKo">Record<br/>KO</th>
+                    <th st-sort="note">Esito</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <pnx:row>
+                    <td style="min-width: 49px" class="text-center" ng-if="(vmApp.filter.filtroEmesseRicevute) === 'E'">
+                        <div style="position: relative;">
+                            <label class="i-checks m-b-none">
+                                <input type="checkbox"
+                                       checklist-model="vmApp.selectedImports"
+                                       checklist-value="row.id">
+                                <i></i>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+
+                        <pnx:popupButton icon="fa-search" className="btn-info btn-xs" popupId="dettaglio"
+                                         ng-hide="vmApp.filter.filtroEmesseRicevute==='R'"
+                                         openCallback="showListaImportsEmesse(row.id,row.fileName,row.status)"
+                                         ng-disabled="(row.status!=='PROCESSED' && row.status!=='PROCESSED_KO') || (row.fileType!=='FEL.FATTURA_EMESSA_COMPLETA_XML' && row.fileType!=='FEL.FATTURA_EMESSA_SEMPLIFICATA_XML') ||
+                                                       (!viewIssuedInvoices && !viewDiscardedInvoices)"/>
+
+                        <pnx:popupButton icon="fa-search" className="btn-info btn-xs" popupId="dettaglio"
+                                         ng-hide="vmApp.filter.filtroEmesseRicevute==='E'"
+                                         openCallback="showListaImportsRicevute(row.id,row.fileName,row.status)"
+                                         ng-disabled="(row.status!=='PROCESSED' && row.status!=='PROCESSED_KO') || (row.fileType!=='FEL.FATTURA_RICEVUTA_COMPLETA_XML' && row.fileType!=='FEL.FATTURA_RICEVUTA_SEMPLIFICATA_XML') ||
+													   !viewIncomingInvoices"/>
+
+                        <pnx:linkButton url="/secure/e-invoicing/pages/gestione/importazione/download/{{row.id}}"
+                                        ng-hide="!enabledDownload"
+                                        icon="fa-download" className="btn-info btn-xs" tooltipText="Download"/>
+
+                        <pnx:ajaxButton action="" param="" confirmTitle="" confirmMessage="" ng-disabled="true"
+                                        ng-hide="enabledDownload"
+                                        icon="fa-download" className="btn-info btn-xs" tooltipText="Download"/>
+
+                        <pnx:ajaxButton tooltipText="Elabora" action="elabora" icon="fa-play"
+                                        className="btn-success btn-xs"
+                                        param="{'importDataId':row.id}" confirmTitle="Elabora"
+                                        confirmMessage="Vuoi elaborare il file?"
+                                        ng-disabled="!{{row.status == 'ACQUIRED'}} || {{row.fileType == 'FEL.FATTURA_RICEVUTA_COMPLETA_XML' || row.fileType == 'FEL.FATTURA_RICEVUTA_SEMPLIFICATA_XML' ||
+                            						  row.fileType == 'FEL.FEL_SDI_RICEVUTA_METADATI_XML' || row.fileType == 'FEL.FEL_AGO_01B_COMPLETA_ATTACH' || row.fileType == 'FEL.FEL_AGO_01C_COMPLETA_ATTACH' ||
+                            						  row.fileType == 'FEL.FEL_AGO_02A_COMPLETA_ATTACH' || row.fileType == 'FEL.FEL_AGO_02B_COMPLETA_ATTACH' || row.fileType == 'FEL.FEL_AGO_02C_COMPLETA_ATTACH' ||
+                            						  row.fileType == 'FEL.FEL_NUM_COMPLETA_ATTACH' || row.fileType == 'FEL.FATTURA_EMESSA_ALLEGATO_XML'}} || {{row.creator != PnxUserService.getCurrentUserInfo()['username']}} ||
+													  !enabledPlay"/>
+
+                        <pnx:ajaxButton tooltipText="Elimina" action="delete" className="btn-xs btn-danger"
+                                        icon="fa-trash"
+                                        param="{'importDataId':row.id}" confirmMessage="Eliminare il file?"
+                                        confirmTitle="Attenzione"
+                                        ng-disabled="!{{row.status != 'PROCESSED' && row.status != 'PROCESSED_KO' && row.status != 'PROCESSING'}} ||
+                                    				  ({{row.status == 'ACQUIRED'}} && {{row.creator != PnxUserService.getCurrentUserInfo()['username']}}) ||
+													  !enabledDelete"/>
+                    </td>
+                    <td>{{row.id}}</td>
+                    <td>
+                        <label class="label label-info" ng-if="row.status == 'ACQUIRED'">{{row.status}}</label>
+                        <label class="label label-danger" ng-if="row.status == 'REJECTED'">{{row.status}}</label>
+                        <label class="label label-default" ng-if="row.status == 'PROCESSING'">{{row.status}}</label>
+                        <label class="label label-success" ng-if="row.status == 'PROCESSED'">{{row.status}}</label>
+                        <label class="label label-warning" ng-if="row.status == 'PROCESSED_KO'">{{row.status}}</label>
+                        <label class="label label-danger" ng-if="row.status == 'DELETED'">{{row.status}}</label>
+                    </td>
+                    <td>{{row.fileType}}</td>
+                    <td>{{row.organizationId}}</td>
+                    <td>{{row.fileName}}</td>
+                    <td>{{row.created | date: '${datetimeFormat}'}}</td>
+                    <td>{{row.modified | date: '${datetimeFormat}'}}</td>
+                    <td>{{row.creator}}</td>
+                    <td align="right">{{row.recordCount}}</td>
+                    <td align="right">{{row.recordOk}}</td>
+                    <td align="right">{{row.recordKo}}</td>
+                    <td>{{row.note}}</td>
+                </pnx:row>
+                </tbody>
+            </pnx:dataTable>
+        </div>
+    </pnx:layout-component>
+</pnx:layout-render>
