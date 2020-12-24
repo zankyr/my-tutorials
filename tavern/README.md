@@ -33,8 +33,17 @@ Now, you just need to install `tavern`:
 pip install wheel tavern
 ```
 
+## Running Tavern tests
+Tavern tests are defined in `.yaml` files. There are several ways to run this tests:
+* via python
+* via command line
+* via pytest
 
+I'll show the latter case, using pytest enviroment.
 
+To run a test via pytest, just run pytest and point it towards the integration test folder. It will automatically find the tests via pytests collection mechanism:
+
+![Schermata 2020-12-24 alle 08.31.59](/Users/rik/Desktop/Schermata 2020-12-24 alle 08.31.59.png)
 
 
 ## References
