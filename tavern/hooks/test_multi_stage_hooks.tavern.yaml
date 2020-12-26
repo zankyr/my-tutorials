@@ -1,0 +1,22 @@
+---
+test_name: A multi stage test
+
+strict:
+  - json:off
+
+stages:
+  - name: Fetching a resource
+    request:
+      url: https://jsonplaceholder.typicode.com/posts/1
+      method: GET
+    response:
+      status_code: 200
+      json:
+        id: 1
+  - name: Filtering resources
+    request:
+      url: https://jsonplaceholder.typicode.com/posts?userId=1
+      method: GET
+    response:
+      status_code: 200
+        

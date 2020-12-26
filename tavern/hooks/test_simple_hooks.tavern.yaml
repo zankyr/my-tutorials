@@ -1,5 +1,5 @@
 ---
-test_name: Test tavern hooks
+test_name: A single stage test
 
 strict:
   - json:off
