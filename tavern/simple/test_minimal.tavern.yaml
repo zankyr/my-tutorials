@@ -11,8 +11,3 @@ stages:
       method: GET
     response:
       status_code: 200
-      json:
-        id: 1
-      save:
-        json:
-          returned_id: id
