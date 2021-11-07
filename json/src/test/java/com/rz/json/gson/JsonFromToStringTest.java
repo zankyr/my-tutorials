@@ -1,24 +1,10 @@
 package com.rz.json.gson;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.rz.json.model.Role;
-import com.rz.json.model.User;
-import jdk.nashorn.internal.parser.JSONParser;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,7 +20,7 @@ class JsonFromToStringTest {
     private String getJSONPString() {
         return "callback" +
                 "(" +
-                getJsonObject().toString() +
+                getJsonObject() +
                 ")";
     }
 

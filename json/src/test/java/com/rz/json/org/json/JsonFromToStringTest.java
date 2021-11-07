@@ -7,8 +7,6 @@ import org.json.JSONTokener;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.print.attribute.standard.MediaSize;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class JsonFromToStringTest {
@@ -23,7 +21,7 @@ class JsonFromToStringTest {
     private String getJSONPString() {
         return "callback" +
                 "(" +
-                getJSONObject().toString() +
+                getJSONObject() +
                 ")";
     }
 
