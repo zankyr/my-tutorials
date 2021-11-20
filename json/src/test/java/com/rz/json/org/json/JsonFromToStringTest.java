@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonFromToStringTest {
 
-    private JSONObject getJSONObject() {
+    private JSONObject getJSONObject() throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", "aGenericName");
         jsonObject.put("id", 123);
         return jsonObject;
     }
 
-    private String getJSONPString() {
+    private String getJSONPString() throws JSONException {
         return "callback" +
                 "(" +
                 getJSONObject() +
@@ -26,7 +26,7 @@ class JsonFromToStringTest {
     }
 
     @Test
-    void shouldCreateJSONObjectFromString() {
+    void shouldCreateJSONObjectFromString() throws JSONException {
         // given
         String jsonString = "{\"name\":\"aGenericName\",\"id\":123}";
 
@@ -39,7 +39,7 @@ class JsonFromToStringTest {
     }
 
     @Test
-    void shouldPrintExpectedJSONObjectString() {
+    void shouldPrintExpectedJSONObjectString() throws JSONException {
         // when
         String actual = getJSONObject().toString();
 
@@ -48,24 +48,27 @@ class JsonFromToStringTest {
         assertEquals(expected, actual);
     }
 
+
     @Test
-    @DisplayName("Verify that org.json can't handle a JSONP format")
-    void whenParsingAJSONPString_thenThrowAJSONException() {
+    void shouldParseAJSONPString() throws JSONException {
         // given
         String jsonPString = getJSONPString();
 
         // when
-        Exception actual = assertThrows(JSONException.class, () -> new JSONObject(jsonPString));
+        JSONTokener jsonTokener = new JSONTokener(jsonPString);
+        jsonTokener.nextValue(); // skip the callback object
+        JSONObject actual = new JSONObject(jsonTokener.nextValue().toString());
 
         // then
-        assertTrue(actual.getMessage().startsWith("A JSONObject text must begin with '{' at 1"));
+        JSONObject expected = getJSONObject();
+        Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 
     }
 
     @Test
-    void shouldParseAJSONPString() {
+    void test() throws JSONException {
         // given
-        String jsonPString = getJSONPString();
+        String jsonPString = getJSONObject().toString();
 
         // when
         JSONTokener jsonTokener = new JSONTokener(jsonPString);
